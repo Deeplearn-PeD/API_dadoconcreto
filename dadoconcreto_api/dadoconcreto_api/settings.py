@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "events.apps.EventsConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -77,7 +78,15 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    "gdelt": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "gdelt",
+        "USER": "postgres",
+        "PASSWORD": "eueueu",
+        "HOST": "localhost",
+        "PORT": "5432",
+    },
 }
 
 
