@@ -129,3 +129,76 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
+from django.db import models
+
+
+class Events(models.Model):
+    globaleventid = models.BigIntegerField(primary_key=True, db_column='GLOBALEVENTID')
+    sqldate = models.DateField(db_column='SQLDATE', blank=True, null=True)
+    monthyear = models.IntegerField(db_column='MonthYear', blank=True, null=True)
+    year = models.IntegerField(db_column='Year', blank=True, null=True)
+    fractiondate = models.FloatField(db_column='FractionDate', blank=True, null=True)
+    actor1code = models.CharField(db_column='Actor1Code', max_length=50, blank=True, null=True)
+    actor1name = models.CharField(db_column='Actor1Name', max_length=255, blank=True, null=True)
+    actor1countrycode = models.CharField(db_column='Actor1CountryCode', max_length=3, blank=True, null=True)
+    actor1knowngroupcode = models.CharField(db_column='Actor1KnownGroupCode', max_length=50, blank=True, null=True)
+    actor1ethniccode = models.CharField(db_column='Actor1EthnicCode', max_length=50, blank=True, null=True)
+    actor1religion1code = models.CharField(db_column='Actor1Religion1Code', max_length=50, blank=True, null=True)
+    actor1religion2code = models.CharField(db_column='Actor1Religion2Code', max_length=50, blank=True, null=True)
+    actor1type1code = models.CharField(db_column='Actor1Type1Code', max_length=50, blank=True, null=True)
+    actor1type2code = models.CharField(db_column='Actor1Type2Code', max_length=50, blank=True, null=True)
+    actor1type3code = models.CharField(db_column='Actor1Type3Code', max_length=50, blank=True, null=True)
+    actor2code = models.CharField(db_column='Actor2Code', max_length=50, blank=True, null=True)
+    actor2name = models.CharField(db_column='Actor2Name', max_length=255, blank=True, null=True)
+    actor2countrycode = models.CharField(db_column='Actor2CountryCode', max_length=3, blank=True, null=True)
+    actor2knowngroupcode = models.CharField(db_column='Actor2KnownGroupCode', max_length=50, blank=True, null=True)
+    actor2ethniccode = models.CharField(db_column='Actor2EthnicCode', max_length=50, blank=True, null=True)
+    actor2religion1code = models.CharField(db_column='Actor2Religion1Code', max_length=50, blank=True, null=True)
+    actor2religion2code = models.CharField(db_column='Actor2Religion2Code', max_length=50, blank=True, null=True)
+    actor2type1code = models.CharField(db_column='Actor2Type1Code', max_length=50, blank=True, null=True)
+    actor2type2code = models.CharField(db_column='Actor2Type2Code', max_length=50, blank=True, null=True)
+    actor2type3code = models.CharField(db_column='Actor2Type3Code', max_length=50, blank=True, null=True)
+    isrootevent = models.IntegerField(db_column='IsRootEvent', blank=True, null=True)
+    eventcode = models.CharField(db_column='EventCode', max_length=50, blank=True, null=True)
+    eventbasecode = models.CharField(db_column='EventBaseCode', max_length=50, blank=True, null=True)
+    eventrootcode = models.CharField(db_column='EventRootCode', max_length=50, blank=True, null=True)
+    quadclass = models.IntegerField(db_column='QuadClass', blank=True, null=True)
+    goldsteinscale = models.FloatField(db_column='GoldsteinScale', blank=True, null=True)
+    nummentions = models.IntegerField(db_column='NumMentions', blank=True, null=True)
+    numsources = models.IntegerField(db_column='NumSources', blank=True, null=True)
+    numarticles = models.IntegerField(db_column='NumArticles', blank=True, null=True)
+    avgtone = models.FloatField(db_column='AvgTone', blank=True, null=True)
+    actor1geo_type = models.IntegerField(db_column='Actor1Geo_Type', blank=True, null=True)
+    actor1geo_fullname = models.CharField(db_column='Actor1Geo_FullName', max_length=255, blank=True, null=True)
+    actor1geo_countrycode = models.CharField(db_column='Actor1Geo_CountryCode', max_length=2, blank=True, null=True)
+    actor1geo_adm1code = models.CharField(db_column='Actor1Geo_ADM1Code', max_length=4, blank=True, null=True)
+    actor1geo_lat = models.FloatField(db_column='Actor1Geo_Lat', blank=True, null=True)
+    actor1geo_long = models.FloatField(db_column='Actor1Geo_Long', blank=True, null=True)
+    actor1geo_featureid = models.CharField(db_column='Actor1Geo_FeatureID', max_length=50, blank=True, null=True)
+    actor2geo_type = models.IntegerField(db_column='Actor2Geo_Type', blank=True, null=True)
+    actor2geo_fullname = models.CharField(db_column='Actor2Geo_FullName', max_length=255, blank=True, null=True)
+    actor2geo_countrycode = models.CharField(db_column='Actor2Geo_CountryCode', max_length=2, blank=True, null=True)
+    actor2geo_adm1code = models.CharField(db_column='Actor2Geo_ADM1Code', max_length=4, blank=True, null=True)
+    actor2geo_lat = models.FloatField(db_column='Actor2Geo_Lat', blank=True, null=True)
+    actor2geo_long = models.FloatField(db_column='Actor2Geo_Long', blank=True, null=True)
+    actor2geo_featureid = models.CharField(db_column='Actor2Geo_FeatureID', max_length=50, blank=True, null=True)
+    actiongeo_type = models.IntegerField(db_column='ActionGeo_Type', blank=True, null=True)
+    actiongeo_fullname = models.CharField(db_column='ActionGeo_FullName', max_length=255, blank=True, null=True)
+    actiongeo_countrycode = models.CharField(db_column='ActionGeo_CountryCode', max_length=2, blank=True, null=True)
+    actiongeo_adm1code = models.CharField(db_column='ActionGeo_ADM1Code', max_length=4, blank=True, null=True)
+    actiongeo_lat = models.FloatField(db_column='ActionGeo_Lat', blank=True, null=True)
+    actiongeo_long = models.FloatField(db_column='ActionGeo_Long', blank=True, null=True)
+    actiongeo_featureid = models.CharField(db_column='ActionGeo_FeatureID', max_length=50, blank=True, null=True)
+    dateadded = models.DateField(db_column='DATEADDED', blank=True, null=True)
+    sourceurl = models.TextField(db_column='SOURCEURL', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'events'
