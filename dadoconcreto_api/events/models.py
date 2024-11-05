@@ -9,16 +9,16 @@ from django.db import models
 
 
 class Article(models.Model):
-    title = models.CharField()
-    url = models.CharField()
-    url_mobile = models.CharField(blank=True, null=True)
-    socialimage = models.CharField(blank=True, null=True)
+    title = models.CharField(max_length=255)
+    url = models.CharField(max_length=255)
+    url_mobile = models.CharField(blank=True, null=True,max_length=255)
+    socialimage = models.CharField(blank=True, null=True,max_length=255)
     seendate = models.DateField()
-    domain = models.CharField()
-    country = models.CharField(blank=True, null=True)
-    language = models.CharField()
-    theme = models.CharField(blank=True, null=True)
-    hash_key = models.CharField(unique=True)
+    domain = models.CharField(max_length=255)
+    country = models.CharField(blank=True, null=True,max_length=255)
+    language = models.CharField(max_length=255)
+    theme = models.CharField(blank=True, null=True,max_length=255)
+    hash_key = models.CharField(unique=True,max_length=255)
 
     class Meta:
         managed = False
@@ -27,9 +27,9 @@ class Article(models.Model):
 
 class Fulltext(models.Model):
     article = models.ForeignKey(Article, models.DO_NOTHING)
-    content = models.CharField()
+    content = models.CharField(max_length=255)
     extracted_at = models.DateField()
-    hash_key = models.CharField(unique=True)
+    hash_key = models.CharField(max_length=255,unique=True)
 
     class Meta:
         managed = False
@@ -37,10 +37,10 @@ class Fulltext(models.Model):
 
 
 class Tone(models.Model):
-    query = models.CharField()
+    query = models.CharField(max_length=255)
     date = models.DateField()
     value = models.FloatField()
-    hash_key = models.CharField(unique=True)
+    hash_key = models.CharField(max_length=255, unique=True)
 
     class Meta:
         managed = False
@@ -48,11 +48,11 @@ class Tone(models.Model):
 
 
 class Volumetimeline(models.Model):
-    keyword = models.CharField()
+    keyword = models.CharField(max_length=255)
     date = models.DateField()
     volume = models.FloatField()
     top_articles = models.JSONField()
-    hash_key = models.CharField(unique=True)
+    hash_key = models.CharField(max_length=255,unique=True)
 
     class Meta:
         managed = False
