@@ -1,14 +1,10 @@
 services:
   web:
+      # Build the image from the Dockerfile in the current directory
     build: .
-    command: gunicorn dadoconcreto_api.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - .:/app
-    expose:
-      - 8000
-    environment:
-      - DJANGO_SETTINGS_MODULE=dadoconcreto_api.settings
-      - PYTHONPATH=/app
+    # Host the app on port 8000
+    ports:
+      - 9090:9090
     networks:
       - app_network
     restart: unless-stopped
