@@ -1,58 +1,45 @@
 """
 Django Ninja API for acessing the Gdelt database
 """
+from typing import List
+from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI
-
-api = NinjaAPI()from django.db import models
-
-class Article(models.Model):
-    id = models.AutoField(primary_key=True)
-    url = models.URLField()
-    title = models.CharField(max_length=500)
-    published_date = models.DateTimeField()
-    
-    class Meta:
-        db_table = 'articles'
-        managed = False
-
-class Tone(models.Model):
-    id = models.AutoField(primary_key=True)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    tone = models.FloatField()
-    positive = models.FloatField()
-    negative = models.FloatField()
-    polarity = models.FloatField()
-    activity_reference_density = models.FloatField()
-    self_group_reference_density = models.FloatField()
-    word_count = models.IntegerField()
-    
-    class Meta:
-        db_table = 'tone'
-        managed = False
-
-class VolumeTimeline(models.Model):
-    id = models.AutoField(primary_key=True)
-    date = models.DateField()
-    volume = models.IntegerField()
-    
-    class Meta:
-        db_table = 'volumetimeline'
-        managed = False
-from ninja import ModelSchema
 from .models import Article, Tone, VolumeTimeline
+from .schemas import ArticleSchema, ToneSchema, VolumeTimelineSchema
 
-class ArticleSchema(ModelSchema):
-    class Meta:
-        model = Article
-        fields = ['id', 'url', 'title', 'published_date']
+api = NinjaAPI()
 
-class ToneSchema(ModelSchema):
-    class Meta:
-        model = Tone
-        fields = ['id', 'article_id', 'tone', 'positive', 'negative', 'polarity', 
-                 'activity_reference_density', 'self_group_reference_density', 'word_count']
+@api.get("/articles", response=List[ArticleSchema])
+def list_articles(request):
+    """Get all articles"""
+    return Article.objects.all()
 
-class VolumeTimelineSchema(ModelSchema):
-    class Meta:
-        model = VolumeTimeline
-        fields = ['id', 'date', 'volume']
+@api.get("/articles/{article_id}", response=ArticleSchema)
+def get_article(request, article_id: int):
+    """Get a specific article by ID"""
+    return get_object_or_404(Article, id=article_id)
+
+@api.get("/tone", response=List[ToneSchema])
+def list_tone(request):
+    """Get all tone entries"""
+    return Tone.objects.all()
+
+@api.get("/tone/{tone_id}", response=ToneSchema)
+def get_tone(request, tone_id: int):
+    """Get a specific tone entry by ID"""
+    return get_object_or_404(Tone, id=tone_id)
+
+@api.get("/tone/article/{article_id}", response=List[ToneSchema])
+def get_article_tone(request, article_id: int):
+    """Get tone entries for a specific article"""
+    return Tone.objects.filter(article_id=article_id)
+
+@api.get("/volumetimeline", response=List[VolumeTimelineSchema])
+def list_volume_timeline(request):
+    """Get all volume timeline entries"""
+    return VolumeTimeline.objects.all()
+
+@api.get("/volumetimeline/{timeline_id}", response=VolumeTimelineSchema)
+def get_volume_timeline(request, timeline_id: int):
+    """Get a specific volume timeline entry by ID"""
+    return get_object_or_404(VolumeTimeline, id=timeline_id)
