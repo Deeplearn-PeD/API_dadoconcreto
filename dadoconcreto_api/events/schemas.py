@@ -2,21 +2,21 @@ from ninja import ModelSchema
 from .models import Article, Fulltext, Tone, Volumetimeline
 
 class ArticleSchema(ModelSchema):
-    class Config:
+    class Meta:
         model = Article
-        model_fields = "__all__"
+        fields = "__all__"
 
 class FulltextSchema(ModelSchema):
-    class Config:
+    class Meta:
         model = Fulltext
-        model_fields = "__all__"
+        fields = "__all__"
 
 class ToneSchema(ModelSchema):
-    class Config:
+    class Meta:
         model = Tone
-        model_fields = "__all__"
+        fields = "__all__"
 
 class VolumetimelineSchema(ModelSchema):
-    class Config:
+    class Meta:
         model = Volumetimeline
-        model_fields = "__all__"
+        fields = "__all__"

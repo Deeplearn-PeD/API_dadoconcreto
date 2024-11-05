@@ -10,15 +10,15 @@ from django.db import models
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
-    url = models.CharField(max_length=255)
+    url = models.CharField(max_length=1255)
     url_mobile = models.CharField(blank=True, null=True,max_length=255)
-    socialimage = models.CharField(blank=True, null=True,max_length=255)
+    socialimage = models.CharField(blank=True, null=True,max_length=1255)
     seendate = models.DateField()
     domain = models.CharField(max_length=255)
     country = models.CharField(blank=True, null=True,max_length=255)
     language = models.CharField(max_length=255)
-    theme = models.CharField(blank=True, null=True,max_length=255)
-    hash_key = models.CharField(unique=True,max_length=255)
+    theme = models.CharField(blank=True, null=True,max_length=2550)
+    hash_key = models.CharField(unique=True,max_length=2550)
 
     class Meta:
         managed = False
@@ -27,7 +27,7 @@ class Article(models.Model):
 
 class Fulltext(models.Model):
     article = models.ForeignKey(Article, models.DO_NOTHING)
-    content = models.CharField(max_length=255)
+    content = models.CharField(max_length=5000)
     extracted_at = models.DateField()
     hash_key = models.CharField(max_length=255,unique=True)
 
