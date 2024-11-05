@@ -44,7 +44,6 @@ def list_volumetimelines(request):
 def get_volumetimeline(request, hash_key: str):
     volumetimeline = Volumetimeline.objects.get(hash_key=hash_key)
     return volumetimeline
-
 # Build stage
 FROM python:3.11-slim as builder
 
