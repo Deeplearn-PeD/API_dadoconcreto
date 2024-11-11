@@ -47,5 +47,5 @@ def get_volumetimeline(request, hash_key: str):
 
 @api.get("/articles/{country}", response=List[ArticleSchema])
 def list_articles_by_country(request, country: str):
-    articles = Article.objects.filter(country=country)
+    articles = Article.objects.filter(country=country).all()
     return articles
