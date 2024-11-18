@@ -2,4 +2,5 @@ all:
   hosts:
     dadoconcreto.deeplearn.ltd:
       ansible_user: ubuntu
+      ansible_python_interpreter: /usr/bin/python3
       git_repo: <your-git-repo-url>
