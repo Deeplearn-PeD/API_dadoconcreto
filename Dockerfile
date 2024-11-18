@@ -12,7 +12,7 @@ ENV UV_LINK_MODE=copy
 #ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc python3-dev libpq-dev gunicorn &&\
+    apt-get install -y --no-install-recommends gcc python3-dev libpq-dev&&\
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -25,11 +25,11 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Then, add the rest of the project source code and install it
 # Installing separately from its dependencies allows optimal layer caching
 ADD . /app
-RUN --mount=type=cache,target=/root/.cache/uv \
-        uv sync --frozen --no-dev
+RUN uv sync --frozen --no-dev
 
 
 #COPY --from=builder /usr/local/lib/python3.11/site-packages/ /usr/local/lib/python3.11/site-packages/
+COPY ./docker/entrypoint.sh /app/docker/entrypoint.sh
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
@@ -38,5 +38,9 @@ ENTRYPOINT []
 RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 WORKDIR /app/dadoconcreto_api
+RUN --mount=type=cache,target=/root/.cache/uv \
+        uv sync --frozen --no-dev
+
 EXPOSE 9090
-CMD ["gunicorn", "dadoconcreto_api.wsgi:application", "--bind", "0.0.0.0:9090"]
+#CMD ["gunicorn", "dadoconcreto_api.wsgi:application", "--bind", "0.0.0.0:9090"]
+ENTRYPOINT ["/bin/bash", "-c", "/app/docker/entrypoint.sh"]
