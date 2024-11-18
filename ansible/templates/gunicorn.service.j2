@@ -1,0 +1,16 @@
+[Unit]
+Description=Gunicorn daemon for DadoConcreto
+After=network.target
+
+[Service]
+User={{ app_user }}
+Group={{ app_group }}
+WorkingDirectory={{ app_root }}/src
+ExecStart={{ venv_path }}/bin/gunicorn \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          {{ django_settings }}.wsgi:application
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

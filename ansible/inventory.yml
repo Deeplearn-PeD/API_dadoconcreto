@@ -1,0 +1,5 @@
+all:
+  hosts:
+    dadoconcreto.deeplearn.ltd:
+      ansible_user: ubuntu
+      git_repo: <your-git-repo-url>

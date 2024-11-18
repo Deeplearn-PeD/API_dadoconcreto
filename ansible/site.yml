@@ -1,0 +1,98 @@
+---
+- name: Deploy DadoConcreto Django Application
+  hosts: dadoconcreto.deeplearn.ltd
+  become: yes
+  vars:
+    app_name: dadoconcreto
+    app_user: django
+    app_group: django
+    app_root: /opt/dadoconcreto
+    venv_path: "/opt/dadoconcreto/venv"
+    django_settings: dadoconcreto_api.settings
+
+  tasks:
+    - name: Install system dependencies
+      apt:
+        name:
+          - python3
+          - python3-pip
+          - python3-venv
+          - nginx
+          - postgresql
+          - postgresql-contrib
+          - git
+        state: present
+        update_cache: yes
+
+    - name: Create application user
+      user:
+        name: "{{ app_user }}"
+        group: "{{ app_group }}"
+        system: yes
+        shell: /bin/bash
+        home: "/home/{{ app_user }}"
+        createhome: yes
+
+    - name: Create application directory
+      file:
+        path: "{{ app_root }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_group }}"
+        mode: '0755'
+
+    - name: Clone application repository
+      git:
+        repo: "{{ git_repo }}"
+        dest: "{{ app_root }}/src"
+        version: main
+      become_user: "{{ app_user }}"
+
+    - name: Create Python virtual environment
+      command:
+        cmd: python3 -m venv "{{ venv_path }}"
+        creates: "{{ venv_path }}"
+      become_user: "{{ app_user }}"
+
+    - name: Install Python dependencies
+      pip:
+        requirements: "{{ app_root }}/src/requirements.txt"
+        virtualenv: "{{ venv_path }}"
+      become_user: "{{ app_user }}"
+
+    - name: Configure Gunicorn
+      template:
+        src: templates/gunicorn.service.j2
+        dest: /etc/systemd/system/gunicorn.service
+      notify: restart gunicorn
+
+    - name: Configure Nginx
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/sites-available/dadoconcreto
+      notify: restart nginx
+
+    - name: Enable Nginx site
+      file:
+        src: /etc/nginx/sites-available/dadoconcreto
+        dest: /etc/nginx/sites-enabled/dadoconcreto
+        state: link
+      notify: restart nginx
+
+    - name: Remove default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+  handlers:
+    - name: restart gunicorn
+      systemd:
+        name: gunicorn
+        state: restarted
+        daemon_reload: yes
+
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted
